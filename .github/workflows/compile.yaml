@@ -17,9 +17,11 @@ jobs:
           lfs: true
 
       - name: 📄 Compile the Logo
-        uses: xu-cheng/latex-action@v2
+        uses: xu-cheng/latex-action@v3
         with:
           root_file: flowR.tex
+          latexmk_use_lualatex: true
+          extra_fonts: "Pecita.otf"
 
       - name: 📦 Upload the Logo
         uses: actions/upload-artifact@v4
