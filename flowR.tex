@@ -1,6 +1,4 @@
 \documentclass{article}
-\errorcontextlines999999
-
 \usepackage[T1]{fontenc}
 
 \usepackage[active,tightpage]{preview}
@@ -8,12 +6,7 @@
 
 \usepackage{microtype}
 \usepackage{tikz}
-\usetikzlibrary{tikzmark}
-
-% \usepackage[sfdefault]{overlock}
-% \usepackage[sfdefault,lining,oldstyle]{libertine}
 \usepackage{fontspec}
-% \usepackage{plex-otf} %
 
 \def\Shade{\pgfmathsetmacro\I{int(\i)}\ifnum\I>140 \tikzset{@/.style={right color=\InnerColor,left color=\OuterColor}}
 \def\Offshift{0}
@@ -118,7 +111,6 @@ pingu@invclip/.style={
     \endscope\fi
     \DrawRound{.75}{@inner!98!black}{#1}{36}
 \endscope
-    % % inner color=black!98!@inner,outer color
     \fill[outer color=black!98!@inner,inner color=black!90!@inner] (0,0) circle[radius=\CenterSize];
 }
 % https://www.dafont.com/pecita.font
@@ -133,33 +125,13 @@ pingu@invclip/.style={
 
 \newsavebox\Flower
 \begin{document}
-\preview\sffamily% ,Path=./
-% \addfontfeature{Color=FF000099}
-% \definecolor{red}{RGB}{133, 0, 0}%
-% \definecolor{purple}{RGB}{93, 84, 174}%
+\preview\sffamily
 \colorlet{@inner}{\Color!50!white}%
-% \foreach \Profile in {\ProfileA, \ProfileB,\ProfileC,\ProfileD,\ProfileE} {
 \Profile%
-% \foreach \Color in {\Color}{% ,red!80!yellow, teal!90!blue,green!80!purple,purple,cyan!70!blue
 \setbox\Flower=\hbox{\tikz{\Bloom{\Color}}}%
 \begin{tikzpicture}
-   % \scope[transparency group,opacity=1]
    \node at (\Xshift,-.3pt) {\resizebox{26pt}!{\usebox\Flower}};
-   % \pgfinterruptboundingbox
    \node at (0,0) {\setmainfont[Scale=MatchLowercase]{Pecita}flow\kern.25pt{\large R}};
-   % \endpgfinterruptboundingbox
-   % \draw[green] (-5.95pt,-.2pt) circle[radius=1.9pt];
-   % \endscope
-   % \node[right=5.65mm,align=left,font=\fontspec{MerriweatherSans}\bfseries\tiny,gray!60,scale=.75] at(current bounding box.east) {A static dataflow analyzer\\and program slicer for R};
-   % \path[postaction={decorate},decoration={text along path, text={|\color{gray!60}\fontspec{QTAncientOlive}\scriptsize|{\textbullet}~A static dataflow analyzer and program slicer for R~},text align={fit to path}}] (current bounding box.center) ++ (180:35pt) arc (180:180-359:35pt);
 \end{tikzpicture}
-%}%
-% }%
-% \begin{tikzpicture}
-%    \Bloom{teal}{teal}{cyan!40!teal}
-% \end{tikzpicture}~%
-% \begin{tikzpicture}
-%     \Bloom{green}{green}{lime}
-%  \end{tikzpicture}~%
 \endpreview
 \end{document}
