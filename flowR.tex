@@ -24,10 +24,10 @@
 #1[@,@default] (-\Offshift/2,0) to[bend right=4] ++(5.75pt+\Offshift,\Length) arc(-9:189:5.75pt and 6pt) to[bend right=4] ++(5.75pt,-\Length) -- cycle #2;
 \endscope}
 
-\tikzset{pingu@clip even odd rule/.code={\pgfseteorule}, % Credit to Andrew Stacey
-pingu@invclip/.style={
+\tikzset{flowr@clip even odd rule/.code={\pgfseteorule}, % Credit to Andrew Stacey
+flowr@invclip/.style={
     clip,insert path=
-        [pingu@clip even odd rule]{
+        [flowr@clip even odd rule]{
             [reset cm](-6cm,-6cm)rectangle(6cm,6cm)
         }
 }}
@@ -48,7 +48,7 @@ pingu@invclip/.style={
 }
 \scope
 \pgfinterruptboundingbox
-\edef\i{\Step}{\def\Shade{}\tikzset{@default/.style={}}\DrawLeaf{\path[save path=\clippath,pingu@invclip]};}%
+\edef\i{\Step}{\def\Shade{}\tikzset{@default/.style={}}\DrawLeaf{\path[save path=\clippath,flowr@invclip]};}%
 \endpgfinterruptboundingbox
 \clip[use path=\clippath];
 \pgfmathsetmacro\Cur{int(360-2*\Step)}
@@ -60,7 +60,7 @@ pingu@invclip/.style={
 \scope
 \pgfinterruptboundingbox
 \pgfmathsetmacro\Cur{int(2*\Step)}
-\def\i{\Cur}{\def\Shade{}\tikzset{@default/.style={}}\DrawLeaf{\path[save path=\clippath,pingu@invclip]};}
+\def\i{\Cur}{\def\Shade{}\tikzset{@default/.style={}}\DrawLeaf{\path[save path=\clippath,flowr@invclip]};}
 \endpgfinterruptboundingbox
 \scope[rotate around={\Step-90:(0,0)}]
 \clip[use path=\clippath];
