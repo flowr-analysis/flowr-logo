@@ -124,12 +124,12 @@ pingu@invclip/.style={
 % https://www.dafont.com/pecita.font
 %\definecolor{@color}{RGB}{93, 46, 70}
 % \definecolor{@color}{HTML}{7C4DFF} % 7C4DFF
-\definecolor{@color}{RGB}{163,38,56}
+\definecolor{default@color}{RGB}{163,38,56}
 % \colorlet{@color}{@color!65!orange!87!black}
 \usetikzlibrary{decorations.text}
 
 \providecommand\Profile{\ProfileB}
-\providecommand\Color{@color}
+\providecommand\Color{default@color}
 
 \newsavebox\Flower
 \begin{document}
@@ -137,19 +137,19 @@ pingu@invclip/.style={
 % \addfontfeature{Color=FF000099}
 % \definecolor{red}{RGB}{133, 0, 0}%
 % \definecolor{purple}{RGB}{93, 84, 174}%
-\colorlet{@inner}{@color!50!white}%
+\colorlet{@inner}{\Color!50!white}%
 % \foreach \Profile in {\ProfileA, \ProfileB,\ProfileC,\ProfileD,\ProfileE} {
 \Profile%
-% \foreach \Color in {@color}{% ,red!80!yellow, teal!90!blue,green!80!purple,purple,cyan!70!blue
+% \foreach \Color in {\Color}{% ,red!80!yellow, teal!90!blue,green!80!purple,purple,cyan!70!blue
 \setbox\Flower=\hbox{\tikz{\Bloom{\Color}}}%
 \begin{tikzpicture}
-   \scope[transparency group,opacity=1]
+   % \scope[transparency group,opacity=1]
    \node at (\Xshift,-.3pt) {\resizebox{26pt}!{\usebox\Flower}};
    % \pgfinterruptboundingbox
    \node at (0,0) {\setmainfont[Scale=MatchLowercase]{Pecita}flow\kern.25pt{\large R}};
    % \endpgfinterruptboundingbox
    % \draw[green] (-5.95pt,-.2pt) circle[radius=1.9pt];
-   \endscope
+   % \endscope
    % \node[right=5.65mm,align=left,font=\fontspec{MerriweatherSans}\bfseries\tiny,gray!60,scale=.75] at(current bounding box.east) {A static dataflow analyzer\\and program slicer for R};
    % \path[postaction={decorate},decoration={text along path, text={|\color{gray!60}\fontspec{QTAncientOlive}\scriptsize|{\textbullet}~A static dataflow analyzer and program slicer for R~},text align={fit to path}}] (current bounding box.center) ++ (180:35pt) arc (180:180-359:35pt);
 \end{tikzpicture}
