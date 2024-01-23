@@ -3,8 +3,8 @@
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions{family=flowrlogo,prefix=flowrlogo@}
 \DeclareBoolOption{notext}
-\DeclareStringOption[B]{profile}
-\DeclareStringOption[default@color]{color}
+\DeclareStringOption[B]{profile}[B]
+\DeclareStringOption[default@color]{color}[default@color]
 \ProcessKeyvalOptions*
 
 \ifflowrlogo@notext\else
