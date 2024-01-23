@@ -1,0 +1,135 @@
+\ProvidesPackage{flowrlogo}[]
+
+\RequirePackage{kvoptions}
+\SetupKeyvalOptions{family=flowrlogo,prefix=flowrlogo@}
+\DeclareBoolOption{notext}
+\DeclareStringOption[B]{profile}
+\DeclareStringOption[default@color]{color}
+\ProcessKeyvalOptions*
+
+\ifflowrlogo@notext\else
+\RequirePackage[T1]{fontenc}
+\RequirePackage{microtype}
+\RequirePackage{fontspec}
+\fi\RequirePackage{tikz}
+
+\def\flowrlogo@Shade{\pgfmathsetmacro\I{int(\i)}\ifnum\I>140 \tikzset{@/.style={right color=\flowrlogo@InnerColor,left color=\flowrlogo@OuterColor}}
+\def\flowrlogo@Offshift{0}
+\ifnum\I>180 \tikzset{@/.style={top color=\flowrlogo@InnerColor,bottom color=\flowrlogo@OuterColor}}
+   \ifnum\I<220 \tikzset{@/.style={right color=\flowrlogo@InnerColor,left color=\flowrlogo@OuterColor}}
+   \else\ifnum\I>320\tikzset{@/.style={left color=\flowrlogo@InnerColor,right color=\flowrlogo@OuterColor}}
+   \fi
+\fi\fi
+\else\ifnum\I<50 \tikzset{@/.style={left color=\flowrlogo@InnerColor,right color=\flowrlogo@OuterColor}}
+\else \tikzset{@/.style={bottom color=\flowrlogo@InnerColor,top color=\flowrlogo@OuterColor}}
+\fi\fi}
+\tikzset{@/.style={},@default/.style={draw=black,very thin}}
+\def\flowrlogo@DrawLeaf#1#2;{\scope[rotate around={\i-90:(0,0)}]
+\flowrlogo@Shade
+#1[@,@default] (-\flowrlogo@Offshift/2,0) to[bend right=4] ++(5.75pt+\flowrlogo@Offshift,\flowrlogo@Length) arc(-9:189:5.75pt and 6pt) to[bend right=4] ++(5.75pt,-\flowrlogo@Length) -- cycle #2;
+\endscope}
+
+\tikzset{flowr@clip even odd rule/.code={\pgfseteorule}, % Credit to Andrew Stacey
+flowr@invclip/.style={
+    clip,insert path=
+        [flowr@clip even odd rule]{
+            [reset cm](-6cm,-6cm)rectangle(6cm,6cm)
+        }
+}}
+
+\def\flowrlogo@Offshift{0pt}
+
+% #1 is length | #2 inner | #3 outer | #4 step
+\def\flowrlogo@DrawRound#1#2#3#4{%
+\gdef\flowrlogo@Length{#1}%
+\def\flowrlogo@InnerColor{#2!96!\flowrlogo@OuterColor}%
+\def\flowrlogo@OuterColor{#3}%
+% \def\Init{0}%
+\def\Step{#4}%
+\pgfmathsetmacro\Steptarget{int(2*\Step)}%
+\pgfmathsetmacro\Stepgoal{int(360-2*\Step-1)}%
+\foreach \i in {\Step,\Steptarget,...,\Stepgoal} {%
+\flowrlogo@DrawLeaf\fill;
+}
+\scope
+\pgfinterruptboundingbox
+\edef\i{\Step}{\def\flowrlogo@Shade{}\tikzset{@default/.style={}}\flowrlogo@DrawLeaf{\path[save path=\clippath,flowr@invclip]};}%
+\endpgfinterruptboundingbox
+\clip[use path=\clippath];
+\pgfmathsetmacro\Cur{int(360-2*\Step)}
+\edef\i{\Cur}\flowrlogo@DrawLeaf\draw;
+\pgfmathsetmacro\Cur{int(360-\Step)}
+\edef\i{\Cur}\flowrlogo@DrawLeaf\draw;
+\def\i{0}\flowrlogo@DrawLeaf\draw;
+\endscope
+\scope
+\pgfinterruptboundingbox
+\pgfmathsetmacro\Cur{int(2*\Step)}
+\def\i{\Cur}{\def\flowrlogo@Shade{}\tikzset{@default/.style={}}\flowrlogo@DrawLeaf{\path[save path=\clippath,flowr@invclip]};}
+\endpgfinterruptboundingbox
+\scope[rotate around={\Step-90:(0,0)}]
+\clip[use path=\clippath];
+\draw[very thin] (0,0) to[bend right=4] ++(5.75pt,\flowrlogo@Length) arc(-9:189:5.75pt and 6pt);
+\endscope
+\endscope
+}
+
+% color
+\def\flowrlogo@ProfileA{%
+\def\flowrlogo@Circles{1}%
+\def\flowrlogo@Xshift{-5pt}%
+\def\flowrlogo@CenterSize{5pt}%
+}
+\def\flowrlogo@ProfileB{%
+\def\flowrlogo@Circles{2}%
+\def\flowrlogo@Xshift{-4.52pt}%
+\def\flowrlogo@CenterSize{5.465pt}%
+}
+\def\flowrlogo@ProfileC{%
+\def\flowrlogo@Circles{3}%
+\def\flowrlogo@Xshift{-4.4pt}%
+\def\flowrlogo@CenterSize{7.75pt}%
+}
+\def\flowrlogo@ProfileD{%
+\def\flowrlogo@Circles{4}%
+\def\flowrlogo@Xshift{-4.5pt}%
+\def\flowrlogo@CenterSize{9pt}%
+}
+\def\flowrlogo@ProfileE{%
+\def\flowrlogo@Circles{5}%
+\def\flowrlogo@Xshift{-4.25pt}%
+\def\flowrlogo@CenterSize{11pt}%
+}
+
+\def\flowrlogo@Bloom#1{%
+\scope[transparency group, opacity=.55] % 625
+    \ifnum\flowrlogo@Circles>5 \scope[rotate around={5:(0,0)}]
+    \flowrlogo@DrawRound{2}{@inner}{#1!50!black}{8}
+    \endscope\fi
+    \ifnum\flowrlogo@Circles>4 \flowrlogo@DrawRound{1.75}{@inner}{#1!50!black}{10}\fi
+    \ifnum\flowrlogo@Circles>3 \scope[rotate around={5:(0,0)}]
+    \flowrlogo@DrawRound{1.5}{@inner}{#1!70!black}{12}
+    \endscope\fi
+    \ifnum\flowrlogo@Circles>2 \flowrlogo@DrawRound{1.25}{@inner}{#1!80!black}{15}\fi
+    \ifnum\flowrlogo@Circles>1 \scope[rotate around={-8:(0,0)}]
+    \scope[transparency group,opacity=.385]\flowrlogo@DrawRound{1}{@inner}{#1}{22.5}\endscope
+    \endscope\fi
+    \flowrlogo@DrawRound{.75}{@inner!98!black}{#1}{36}
+\endscope
+    \fill[outer color=black!98!@inner,inner color=black!90!@inner] (0,0) circle[radius=\flowrlogo@CenterSize];
+}
+% https://www.dafont.com/pecita.font
+%\definecolor{@color}{RGB}{93, 46, 70}
+% \definecolor{@color}{HTML}{7C4DFF} % 7C4DFF
+\definecolor{default@color}{RGB}{163,38,56}
+% \colorlet{@color}{@color!65!orange!87!black}
+\usetikzlibrary{decorations.text}
+
+
+\newsavebox\Flower
+\def\flowrlogo{%
+\colorlet{@inner}{\flowrlogo@color!50!white}\csname flowrlogo@Profile\flowrlogo@profile\endcsname\setbox\Flower=\hbox{\tikz{\flowrlogo@Bloom{\flowrlogo@color}}}%
+\begin{tikzpicture}
+   \node at (\flowrlogo@Xshift,-.3pt) {\resizebox{26pt}!{\usebox\Flower}};
+   \ifflowrlogo@notext\else\node at (0,0) {\setmainfont[Scale=MatchLowercase]{Pecita}flow\kern.25pt{\large R}};\fi
+\end{tikzpicture}}
