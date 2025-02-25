@@ -1,12 +1,16 @@
 \documentclass{article}
 
-\usepackage{flowrlogo}
+\usepackage{xcolor}
+\definecolor{col}{RGB}{0, 139, 162}% {163,38,56} [color=col]
+\usepackage[color=col]{flowrlogo} 
 
 \usepackage[active,tightpage]{preview}
-\def\PreviewBorder{0mm}
+\usepackage{fontawesome}
+\def\PreviewBorder{4.1mm}
 
 \begin{document}
 \preview\sffamily
-\flowrlogo
+\hspace*{1cm}\scalebox{1.25}{\parbox{1.95cm}{\flowrlogo}}%
+\parbox[c]{2.8cm}{\color{gray!44}\fontseries{sb}\footnotesize R Code Analysis\\\fontseries{m}\scriptsize VS Code Extension}\hspace*{1cm}
 \endpreview
 \end{document}

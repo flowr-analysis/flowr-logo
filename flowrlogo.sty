@@ -102,7 +102,7 @@ flowr@invclip/.style={
 }
 
 \def\flowrlogo@Bloom#1{%
-\scope[transparency group, opacity=.55] % 625
+\scope[transparency group, opacity=.755] % 625
     \ifnum\flowrlogo@Circles>5 \scope[rotate around={5:(0,0)}]
     \flowrlogo@DrawRound{2}{@inner}{#1!50!black}{8}
     \endscope\fi
@@ -112,7 +112,7 @@ flowr@invclip/.style={
     \endscope\fi
     \ifnum\flowrlogo@Circles>2 \flowrlogo@DrawRound{1.25}{@inner}{#1!80!black}{15}\fi
     \ifnum\flowrlogo@Circles>1 \scope[rotate around={-8:(0,0)}]
-    \scope[transparency group,opacity=.385]\flowrlogo@DrawRound{1}{@inner}{#1}{22.5}\endscope
+    \scope[transparency group,opacity=.685]\flowrlogo@DrawRound{1}{@inner}{#1}{22.5}\endscope
     \endscope\fi
     \flowrlogo@DrawRound{.75}{@inner!98!black}{#1}{36}
 \endscope
@@ -132,4 +132,5 @@ flowr@invclip/.style={
 \begin{tikzpicture}
    \node at (\flowrlogo@Xshift,-.3pt) {\resizebox{26pt}!{\usebox\Flower}};
    \ifflowrlogo@notext\else\node at (0,0) {\setmainfont[Scale=MatchLowercase]{Pecita}flow\kern.25pt{\large R}};\fi
+   % \node at(current bounding box.center) {R\,~S};
 \end{tikzpicture}}
