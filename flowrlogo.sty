@@ -5,6 +5,7 @@
 \DeclareBoolOption{notext}
 \DeclareStringOption[B]{profile}[B]
 \DeclareStringOption[default@color]{color}[default@color]
+\DeclareBoolOption{print}
 \ProcessKeyvalOptions*
 
 \ifflowrlogo@notext\else
@@ -13,7 +14,7 @@
 \RequirePackage{fontspec}
 \fi\RequirePackage{tikz}
 
-\def\flowrlogo@Shade{\pgfmathsetmacro\I{int(\i)}\ifnum\I>140 \tikzset{@/.style={right color=\flowrlogo@InnerColor,left color=\flowrlogo@OuterColor}}
+\def\flowrlogo@Shade{\ifflowrlogo@print\tikzset{@/.style={fill=white}}\else\pgfmathsetmacro\I{int(\i)}\ifnum\I>140 \tikzset{@/.style={right color=\flowrlogo@InnerColor,left color=\flowrlogo@OuterColor}}
 \def\flowrlogo@Offshift{0}
 \ifnum\I>180 \tikzset{@/.style={top color=\flowrlogo@InnerColor,bottom color=\flowrlogo@OuterColor}}
    \ifnum\I<220 \tikzset{@/.style={right color=\flowrlogo@InnerColor,left color=\flowrlogo@OuterColor}}
@@ -22,8 +23,13 @@
 \fi\fi
 \else\ifnum\I<50 \tikzset{@/.style={left color=\flowrlogo@InnerColor,right color=\flowrlogo@OuterColor}}
 \else \tikzset{@/.style={bottom color=\flowrlogo@InnerColor,top color=\flowrlogo@OuterColor}}
-\fi\fi}
+\fi\fi
+\fi}
+\ifflowrlogo@print
+\tikzset{@/.style={},@default/.style={draw=black,ultra thick}}
+\else
 \tikzset{@/.style={},@default/.style={draw=black,very thin}}
+\fi
 \def\flowrlogo@DrawLeaf#1#2;{\scope[rotate around={\i-90:(0,0)}]
 \flowrlogo@Shade
 #1[@,@default] (-\flowrlogo@Offshift/2,0) to[bend right=4] ++(5.75pt+\flowrlogo@Offshift,\flowrlogo@Length) arc(-9:189:5.75pt and 6pt) to[bend right=4] ++(5.75pt,-\flowrlogo@Length) -- cycle #2;
@@ -38,7 +44,7 @@ flowr@invclip/.style={
 }}
 
 \def\flowrlogo@Offshift{0pt}
-
+>
 % #1 is length | #2 inner | #3 outer | #4 step
 \def\flowrlogo@DrawRound#1#2#3#4{%
 \gdef\flowrlogo@Length{#1}%
@@ -102,7 +108,7 @@ flowr@invclip/.style={
 }
 
 \def\flowrlogo@Bloom#1{%
-\scope[transparency group, opacity=.755] % 625
+\scope[transparency group, opacity=\ifflowrlogo@print1\else.755\fi] % 625
     \ifnum\flowrlogo@Circles>5 \scope[rotate around={5:(0,0)}]
     \flowrlogo@DrawRound{2}{@inner}{#1!50!black}{8}
     \endscope\fi
@@ -112,7 +118,7 @@ flowr@invclip/.style={
     \endscope\fi
     \ifnum\flowrlogo@Circles>2 \flowrlogo@DrawRound{1.25}{@inner}{#1!80!black}{15}\fi
     \ifnum\flowrlogo@Circles>1 \scope[rotate around={-8:(0,0)}]
-    \scope[transparency group,opacity=.685]\flowrlogo@DrawRound{1}{@inner}{#1}{22.5}\endscope
+    \scope[transparency group,opacity=\ifflowrlogo@print1\else.685\fi]\flowrlogo@DrawRound{1}{@inner}{#1}{22.5}\endscope
     \endscope\fi
     \flowrlogo@DrawRound{.75}{@inner!98!black}{#1}{36}
 \endscope
@@ -128,7 +134,8 @@ flowr@invclip/.style={
 
 \newsavebox\Flower
 \def\flowrlogo{%
-\colorlet{@inner}{\flowrlogo@color!50!white}\csname flowrlogo@Profile\flowrlogo@profile\endcsname\setbox\Flower=\hbox{\tikz{\flowrlogo@Bloom{\flowrlogo@color}}}%
+\ifflowrlogo@print\colorlet{@inner}{\flowrlogo@color}\else
+\colorlet{@inner}{\flowrlogo@color!50!white}\fi\csname flowrlogo@Profile\flowrlogo@profile\endcsname\setbox\Flower=\hbox{\tikz{\flowrlogo@Bloom{\flowrlogo@color}}}%
 \begin{tikzpicture}
    \node at (\flowrlogo@Xshift,-.3pt) {\resizebox{26pt}!{\usebox\Flower}};
    \ifflowrlogo@notext\else\node at (0,0) {\setmainfont[Scale=MatchLowercase]{Pecita}flow\kern.25pt{\large R}};\fi
