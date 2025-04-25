@@ -26,13 +26,17 @@
 \fi\fi
 \fi}
 \ifflowrlogo@print
-\tikzset{@/.style={},@default/.style={draw=black,ultra thick}}
+\tikzset{@/.style={},@default/.style={draw=black,very thick}}
 \else
 \tikzset{@/.style={},@default/.style={draw=black,very thin}}
 \fi
-\def\flowrlogo@DrawLeaf#1#2;{\scope[rotate around={\i-90:(0,0)}]
+\def\flowrlogo@DrawLeaf#1#2;{%
+\scope[rotate around={\i-90:(0,0)}]
 \flowrlogo@Shade
+\domath\res{(\i>=0 && \i<=30) || (\i >= 120 && \i <= 230) || \i>=330}%
+\ifnum\res=0
 #1[@,@default] (-\flowrlogo@Offshift/2,0) to[bend right=4] ++(5.75pt+\flowrlogo@Offshift,\flowrlogo@Length) arc(-9:189:5.75pt and 6pt) to[bend right=4] ++(5.75pt,-\flowrlogo@Length) -- cycle #2;
+\fi
 \endscope}
 
 \tikzset{flowr@clip even odd rule/.code={\pgfseteorule}, % Credit to Andrew Stacey
@@ -44,7 +48,7 @@ flowr@invclip/.style={
 }}
 
 \def\flowrlogo@Offshift{0pt}
->
+\let\domath\pgfmathsetmacro
 % #1 is length | #2 inner | #3 outer | #4 step
 \def\flowrlogo@DrawRound#1#2#3#4{%
 \gdef\flowrlogo@Length{#1}%
@@ -59,7 +63,10 @@ flowr@invclip/.style={
 }
 \scope
 \pgfinterruptboundingbox
-\edef\i{\Step}{\def\flowrlogo@Shade{}\tikzset{@default/.style={}}\flowrlogo@DrawLeaf{\path[save path=\clippath,flowr@invclip]};}%
+\edef\i{\Step}{\def\flowrlogo@Shade{}\tikzset{@default/.style={}}%
+{\def\domath##1##2{}\def\res{0}%
+    \flowrlogo@DrawLeaf{\path[save path=\clippath,flowr@invclip]};
+}}%
 \endpgfinterruptboundingbox
 \clip[use path=\clippath];
 \pgfmathsetmacro\Cur{int(360-2*\Step)}
@@ -74,8 +81,10 @@ flowr@invclip/.style={
 \def\i{\Cur}{\def\flowrlogo@Shade{}\tikzset{@default/.style={}}\flowrlogo@DrawLeaf{\path[save path=\clippath,flowr@invclip]};}
 \endpgfinterruptboundingbox
 \scope[rotate around={\Step-90:(0,0)}]
+\ifcsname clippath\endcsname
 \clip[use path=\clippath];
-\draw[very thin] (0,0) to[bend right=4] ++(5.75pt,\flowrlogo@Length) arc(-9:189:5.75pt and 6pt);
+\fi
+\path (0,0) to[bend right=4] ++(5.75pt,\flowrlogo@Length) arc(-9:189:5.75pt and 6pt);
 \endscope
 \endscope
 }
@@ -132,12 +141,15 @@ flowr@invclip/.style={
 \usetikzlibrary{decorations.text}
 
 
+\usepackage{relsize}
 \newsavebox\Flower
 \def\flowrlogo{%
 \ifflowrlogo@print\colorlet{@inner}{\flowrlogo@color}\else
 \colorlet{@inner}{\flowrlogo@color!50!white}\fi\csname flowrlogo@Profile\flowrlogo@profile\endcsname\setbox\Flower=\hbox{\tikz{\flowrlogo@Bloom{\flowrlogo@color}}}%
 \begin{tikzpicture}
-   \node at (\flowrlogo@Xshift,-.3pt) {\resizebox{26pt}!{\usebox\Flower}};
-   \ifflowrlogo@notext\else\node at (0,0) {\setmainfont[Scale=MatchLowercase]{Pecita}flow\kern.25pt{\large R}};\fi
+   \node (@) at (\flowrlogo@Xshift,-.3pt) {\resizebox{26pt}!{\usebox\Flower}};
+   \ifflowrlogo@notext\else\node at (-1mm,0) {\setmainfont[Scale=MatchLowercase]{Pecita}flow\kern.25pt{\larger R}}; \fi %{\LARGE\selectfont flow\itshape R};\fi % \setmainfont[Scale=MatchLowercase]{Pecita}flow\kern.25pt{\large R}
+   % [right=1.5mm] at (@.east)
    % \node at(current bounding box.center) {R\,~S};
+   % \draw[line cap=round,thick] ([xshift=.8mm,yshift=1mm]@.south east) -- ([xshift=.8mm,yshift=-1mm]@.north east);
 \end{tikzpicture}}
