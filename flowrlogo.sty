@@ -33,7 +33,7 @@
 \def\flowrlogo@DrawLeaf#1#2;{%
 \scope[rotate around={\i-90:(0,0)}]
 \flowrlogo@Shade
-\domath\res{(\i>=0 && \i<=30) || (\i >= 120 && \i <= 230) || \i>=330}%
+\def\res{0}% \domath\res{(\i>=0 && \i<=30) || (\i >= 120 && \i <= 230) || \i>=330}%
 \ifnum\res=0
 #1[@,@default] (-\flowrlogo@Offshift/2,0) to[bend right=4] ++(5.75pt+\flowrlogo@Offshift,\flowrlogo@Length) arc(-9:189:5.75pt and 6pt) to[bend right=4] ++(5.75pt,-\flowrlogo@Length) -- cycle #2;
 \fi
@@ -147,8 +147,8 @@ flowr@invclip/.style={
 \ifflowrlogo@print\colorlet{@inner}{\flowrlogo@color}\else
 \colorlet{@inner}{\flowrlogo@color!50!white}\fi\csname flowrlogo@Profile\flowrlogo@profile\endcsname\setbox\Flower=\hbox{\tikz{\flowrlogo@Bloom{\flowrlogo@color}}}%
 \begin{tikzpicture}
-   \node (@) at (\flowrlogo@Xshift,-.3pt) {\resizebox{26pt}!{\usebox\Flower}};
-   \ifflowrlogo@notext\else\node at (-1mm,0) {\setmainfont[Scale=MatchLowercase]{Pecita}flow\kern.25pt{\larger R}}; \fi %{\LARGE\selectfont flow\itshape R};\fi % \setmainfont[Scale=MatchLowercase]{Pecita}flow\kern.25pt{\large R}
+   % \node (@) at (\flowrlogo@Xshift,-.3pt) {\resizebox{26pt}!{\usebox\Flower}};
+   \ifflowrlogo@notext\else\node at (0,0) {\rotatebox{1}{\setmainfont[Scale=MatchLowercase]{Pecita}flow\kern.25pt{\larger R}}}; \fi %{\LARGE\selectfont flow\itshape R};\fi % \setmainfont[Scale=MatchLowercase]{Pecita}flow\kern.25pt{\large R}
    % [right=1.5mm] at (@.east)
    % \node at(current bounding box.center) {R\,~S};
    % \draw[line cap=round,thick] ([xshift=.8mm,yshift=1mm]@.south east) -- ([xshift=.8mm,yshift=-1mm]@.north east);
