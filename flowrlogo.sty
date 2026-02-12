@@ -13,18 +13,16 @@
 \RequirePackage{fontspec}
 \fi\RequirePackage{tikz}
 
-\def\flowrlogo@Shade{\tikzset{@/.style={fill=\flowrlogo@InnerColor}}%
-% \pgfmathsetmacro\I{int(\i)}\ifnum\I>140 \tikzset{@/.style={right color=\flowrlogo@InnerColor,left color=\flowrlogo@OuterColor}}
-% \def\flowrlogo@Offshift{0}
-% \ifnum\I>180 \tikzset{@/.style={top color=\flowrlogo@InnerColor,bottom color=\flowrlogo@OuterColor}}
-%    \ifnum\I<220 \tikzset{@/.style={right color=\flowrlogo@InnerColor,left color=\flowrlogo@OuterColor}}
-%    \else\ifnum\I>320\tikzset{@/.style={left color=\flowrlogo@InnerColor,right color=\flowrlogo@OuterColor}}
-%    \fi
-% \fi\fi
-% \else\ifnum\I<50 \tikzset{@/.style={left color=\flowrlogo@InnerColor,right color=\flowrlogo@OuterColor}}
-% \else \tikzset{@/.style={bottom color=\flowrlogo@InnerColor,top color=\flowrlogo@OuterColor}}
-% \fi\fi
-}
+\def\flowrlogo@Shade{\pgfmathsetmacro\I{int(\i)}\ifnum\I>140 \tikzset{@/.style={right color=\flowrlogo@InnerColor,left color=\flowrlogo@OuterColor}}
+\def\flowrlogo@Offshift{0}
+\ifnum\I>180 \tikzset{@/.style={top color=\flowrlogo@InnerColor,bottom color=\flowrlogo@OuterColor}}
+   \ifnum\I<220 \tikzset{@/.style={right color=\flowrlogo@InnerColor,left color=\flowrlogo@OuterColor}}
+   \else\ifnum\I>320\tikzset{@/.style={left color=\flowrlogo@InnerColor,right color=\flowrlogo@OuterColor}}
+   \fi
+\fi\fi
+\else\ifnum\I<50 \tikzset{@/.style={left color=\flowrlogo@InnerColor,right color=\flowrlogo@OuterColor}}
+\else \tikzset{@/.style={bottom color=\flowrlogo@InnerColor,top color=\flowrlogo@OuterColor}}
+\fi\fi}
 \tikzset{@/.style={},@default/.style={draw=black,very thin}}
 \def\flowrlogo@DrawLeaf#1#2;{\scope[rotate around={\i-90:(0,0)}]
 \flowrlogo@Shade
@@ -44,7 +42,7 @@ flowr@invclip/.style={
 % #1 is length | #2 inner | #3 outer | #4 step
 \def\flowrlogo@DrawRound#1#2#3#4{%
 \gdef\flowrlogo@Length{#1}%
-\def\flowrlogo@InnerColor{#2}%
+\def\flowrlogo@InnerColor{#2!96!\flowrlogo@OuterColor}%
 \def\flowrlogo@OuterColor{#3}%
 % \def\Init{0}%
 \def\Step{#4}%
@@ -85,7 +83,7 @@ flowr@invclip/.style={
 \def\flowrlogo@ProfileB{%
 \def\flowrlogo@Circles{2}%
 \def\flowrlogo@Xshift{-4.52pt}%
-\def\flowrlogo@CenterSize{12.465pt}%
+\def\flowrlogo@CenterSize{5.465pt}%
 }
 \def\flowrlogo@ProfileC{%
 \def\flowrlogo@Circles{3}%
@@ -128,12 +126,11 @@ flowr@invclip/.style={
 \usetikzlibrary{decorations.text}
 
 
-\usepackage{relsize}
 \newsavebox\Flower
 \def\flowrlogo{%
 \colorlet{@inner}{\flowrlogo@color!50!white}\csname flowrlogo@Profile\flowrlogo@profile\endcsname\setbox\Flower=\hbox{\tikz{\flowrlogo@Bloom{\flowrlogo@color}}}%
 \begin{tikzpicture}
    \node at (\flowrlogo@Xshift,-.3pt) {\resizebox{26pt}!{\usebox\Flower}};
-   \ifflowrlogo@notext\else\node[white] at (-.15,0) {\fontsize{4pt}{4pt}\setmainfont[Scale=MatchLowercase]{Pecita}flow\kern.25pt{\larger[2]R}};\fi
+   \ifflowrlogo@notext\else\node at (0,0) {\setmainfont[Scale=MatchLowercase]{Pecita}flow\kern.25pt{\large R}};\fi
    % \node at(current bounding box.center) {R\,~S};
 \end{tikzpicture}}

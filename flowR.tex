@@ -1,17 +1,16 @@
-\errorcontextlines=9999
 \documentclass{article}
 
 \usepackage{xcolor}
-% \definecolor{col}{RGB}{0, 139, 162}% {163,38,56} [color=col]
-\definecolor{col}{RGB}{163,38,56}
-\usepackage[color=col,profile=B]{flowrlogo} 
+\definecolor{col}{RGB}{163,38,56} % {0, 139, 162}% {163,38,56} [color=col]
+\usepackage[color=col]{flowrlogo} 
 
 \usepackage[active,tightpage]{preview}
 \usepackage{fontawesome}
-\def\PreviewBorder{.1mm} %4.1mm
+\def\PreviewBorder{4.1mm}
 
 \begin{document}
 \preview\sffamily
-\flowrlogo
+\scalebox{1.25}{\flowrlogo}%
+% \parbox[c]{2.8cm}{\color{gray!44}\fontseries{sb}\footnotesize R Code Analysis\\\fontseries{m}\scriptsize VS Code Extension}\hspace*{1cm}
 \endpreview
 \end{document}
