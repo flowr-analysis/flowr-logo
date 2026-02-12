@@ -123,14 +123,47 @@ flowr@invclip/.style={
 % \definecolor{@color}{HTML}{7C4DFF} % 7C4DFF
 \definecolor{default@color}{RGB}{163,38,56}
 % \colorlet{@color}{@color!65!orange!87!black}
-\usetikzlibrary{decorations.text}
+\usetikzlibrary{decorations.text,backgrounds}
 
 
 \newsavebox\Flower
-\def\flowrlogo{%
+\newcommand*\flowrlogo[1][\flowrlogo@color]{\begingroup%
+\edef\flowrlogo@color{#1}%
 \colorlet{@inner}{\flowrlogo@color!50!white}\csname flowrlogo@Profile\flowrlogo@profile\endcsname\setbox\Flower=\hbox{\tikz{\flowrlogo@Bloom{\flowrlogo@color}}}%
 \begin{tikzpicture}
    \node at (\flowrlogo@Xshift,-.3pt) {\resizebox{26pt}!{\usebox\Flower}};
    \ifflowrlogo@notext\else\node at (0,0) {\setmainfont[Scale=MatchLowercase]{Pecita}flow\kern.25pt{\large R}};\fi
    % \node at(current bounding box.center) {R\,~S};
-\end{tikzpicture}}
+\end{tikzpicture}\endgroup}
+
+
+\newcommand*\crawlrlogo[1][\flowrlogo@color]{\begingroup%
+\edef\flowrlogo@color{#1}%
+\colorlet{@inner}{\flowrlogo@color!50!white}\csname flowrlogo@Profile\flowrlogo@profile\endcsname\setbox\Flower=\hbox{\tikz{\flowrlogo@Bloom{\flowrlogo@color}}}%
+\begin{tikzpicture}
+   \node (@0) at (\flowrlogo@Xshift-2.7pt,-2pt) {\resizebox{26pt}!{\usebox\Flower}};
+   \node[opacity=.6] (@1) at (\flowrlogo@Xshift+8mm,2.5mm) {\resizebox{9pt}!{\usebox\Flower}};
+   \node[opacity=.5] (@2) at (\flowrlogo@Xshift+4mm,3.5mm) {\resizebox{6.5pt}!{\usebox\Flower}};
+   \node[opacity=.7] (@3) at (\flowrlogo@Xshift+6mm,-3.15mm) {\resizebox{7.75pt}!{\usebox\Flower}};
+   \scope[black,shift={(\flowrlogo@Xshift-2.7pt,-2.5pt)},rotate=-30]
+   \foreach \i in {0,1,2} {
+     \draw[line cap=round] (0,.3*\i mm+.3mm) to[out=70,in=220] ++(2.33pt,-2pt);
+     \draw[line cap=round] (0,.3*\i mm+.3mm) to[out=110,in=-40] ++(-2.66pt,-2pt);
+   }
+   \endscope
+   \ifflowrlogo@notext\else\node at (0,0) {\setmainfont[Scale=MatchLowercase]{Pecita}Crawl\kern.25pt{\large R}};\fi
+   \pgfonlayer{background}
+   \scope[gray!20!white,every path/.append style={line cap=round}]
+     \draw (@0.center) -- (@1.center);
+     \draw (@0.center) -- (@2.center);
+     \draw (@0.center) -- (@3.center);
+     \draw (@1.center) -- (@2.center);
+     \draw (@1.center) -- (@3.center);
+     \draw (@2.center) -- (@3.center);
+   \endscope
+   \endpgfonlayer
+   
+      %% add bug "eyes"
+   \fill[white,opacity=.7] (\flowrlogo@Xshift-2pt,-.65pt) circle[radius=.175pt];
+   \fill[white,opacity=.7] (\flowrlogo@Xshift-1pt,-1.25pt) circle[radius=.175pt];
+\end{tikzpicture}\endgroup}
