@@ -145,7 +145,9 @@ flowr@invclip/.style={
    \node[opacity=.6] (@1) at (\flowrlogo@Xshift+8mm,2.5mm) {\resizebox{9pt}!{\usebox\Flower}};
    \node[opacity=.5] (@2) at (\flowrlogo@Xshift+4mm,3.5mm) {\resizebox{6.5pt}!{\usebox\Flower}};
    \node[opacity=.7] (@3) at (\flowrlogo@Xshift+6mm,-3.15mm) {\resizebox{7.75pt}!{\usebox\Flower}};
-   \scope[black,shift={(\flowrlogo@Xshift-2.7pt,-2.5pt)},rotate=-30]
+   \scope[black!99!white,shift={(\flowrlogo@Xshift-2.7pt,-2.5pt)},rotate=-30]
+   % bug body
+   \fill (0,.3pt) ellipse[x radius=1.5pt,y radius=2pt];
    \foreach \i in {0,1,2} {
      \draw[line cap=round] (0,.3*\i mm+.3mm) to[out=70,in=220] ++(2.33pt,-2pt);
      \draw[line cap=round] (0,.3*\i mm+.3mm) to[out=110,in=-40] ++(-2.66pt,-2pt);
@@ -162,8 +164,7 @@ flowr@invclip/.style={
      \draw (@2.center) -- (@3.center);
    \endscope
    \endpgfonlayer
-   
-      %% add bug "eyes"
+   %% add bug "eyes"
    \fill[white,opacity=.7] (\flowrlogo@Xshift-2pt,-.65pt) circle[radius=.175pt];
    \fill[white,opacity=.7] (\flowrlogo@Xshift-1pt,-1.25pt) circle[radius=.175pt];
 \end{tikzpicture}\endgroup}
